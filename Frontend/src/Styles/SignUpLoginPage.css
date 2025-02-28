@@ -1,0 +1,107 @@
+/* General Reset and Styling */
+.signup-login-body {
+  background-color: #1c1c1c; /* Dark background */
+  color: #f0f0f0; /* Light text */
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-login-container {
+  padding: 40px;
+  background-color: #141414;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-input-group,
+.signup-input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.login-input-group input,
+.signup-input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #3c3c3c;
+  color: #f0f0f0;
+}
+
+.login-input-group label,
+.signup-input-group label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #ccc;
+  transition: all 0.3s ease;
+}
+
+.login-input-group input:focus + label,
+.login-input-group input:not(:placeholder-shown) + label,
+.signup-input-group input:focus + label,
+.signup-input-group input:not(:placeholder-shown) + label {
+  top: -15px;
+  left: 10px;
+  font-size: 12px;
+  color: #00b0f0;
+}
+
+.login-signup{
+  margin-bottom: 20px;
+}
+
+.login-cta-button,
+.signup-cta-button {
+  background-color: #00b0f0; /* Button color */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.login-cta-button:hover,
+.signup-cta-button:hover {
+  background-color: #0091d1; /* Darker blue on hover */
+  transform: scale(1.1);
+}
+
+.login-toggle-text,
+.signup-toggle-text {
+  color: #00b0f0;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.login-toggle-text:hover,
+.signup-toggle-text:hover {
+  text-decoration: underline;
+}
+
+.login-error-message,
+.signup-error-message {
+  color: #ff4d4d;
+  margin-bottom: 20px;
+}
+
+.login-shake,
+.signup-shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}

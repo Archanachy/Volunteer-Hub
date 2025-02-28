@@ -1,0 +1,55 @@
+/* General Reset and Styling */
+.event-details-body {
+  background-color: #1c1c1c; /* Dark background */
+  color: #f0f0f0; /* Light text */
+  overflow-x: hidden;
+}
+
+.event-details-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.event-details-container h1 {
+  margin-bottom: 20px;
+}
+
+.event-details-container p {
+  margin-bottom: 10px;
+}
+
+.event-details-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-details-container label {
+  margin-bottom: 10px;
+}
+
+.event-details-container input,
+.event-details-container textarea {
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 400px;
+}
+
+.event-details-container button {
+  background-color: #00b0f0; /* Button color */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.event-details-container button:hover {
+  background-color: #0091d1; /* Darker blue on hover */
+  transform: scale(1.1);
+}

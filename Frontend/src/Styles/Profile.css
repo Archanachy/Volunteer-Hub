@@ -1,0 +1,19 @@
+/* General Reset and Styling */
+.profile-body {
+    background-color: #1c1c1c; /* Dark background */
+    color: #f0f0f0; /* Light text */
+    overflow-x: hidden;
+  }
+  
+  .profile-container {
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .profile-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  .profile-container p {
+    margin-bottom: 10px;
+  }
