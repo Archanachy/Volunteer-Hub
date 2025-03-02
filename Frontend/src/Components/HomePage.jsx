@@ -24,8 +24,8 @@ const HomePage = () => {
     navigate('/volunteer-opportunities');
   };
 
-  const handleViewTestimonials = () => {
-    navigate('/testimonials');
+  const handleViewReviews = () => {
+    navigate('/reviews');
   };
 
   const handleContactUs = () => {
@@ -75,18 +75,18 @@ const HomePage = () => {
           </div>
         </section>
 
-        <section id="testimonials" className="home-page-testimonials">
-          <div className="home-page-testimonials-content">
+        <section id="reviews" className="home-page-reviews">
+          <div className="home-page-reviews-content">
             <h2>What Our Volunteers Say</h2>
-            <div className="home-page-testimonial-cards">
+            <div className="home-page-review-cards">
               {/* Add testimonial cards here */}
             </div>
             <motion.button
               className="home-page-cta-button"
               whileHover={{ scale: 1.1 }}
-              onClick={handleViewTestimonials}
+              onClick={handleViewReviews}
             >
-              View All Testimonials
+              View All Reviews
             </motion.button>
           </div>
         </section>

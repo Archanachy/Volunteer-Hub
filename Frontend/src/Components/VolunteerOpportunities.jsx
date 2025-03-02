@@ -7,7 +7,6 @@ import Navbar from '../Components/Navbar';
 const VolunteerOpportunities = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
-  const [signedUp, setSignedUp] = useState(false);
   const [filterExpanded, setFilterExpanded] = useState(false);
 
   useEffect(() => {
@@ -27,11 +26,15 @@ const VolunteerOpportunities = () => {
     navigate(`/events/${eventId}`);
   };
 
-  const handleSignUp = () => {
-    setSignedUp(true);
-    setTimeout(() => {
-      navigate('/volunteer-dashboard');
-    }, 2000); // Redirect after 2 seconds
+  const handleSubmitHours = (e, eventId) => {
+    e.stopPropagation(); // Prevent event card click
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert('Please login first');
+      navigate('/login');
+      return;
+    }
+    navigate(`/submit-hours/${eventId}`);
   };
 
   const toggleFilter = () => {
@@ -109,19 +112,9 @@ const VolunteerOpportunities = () => {
               <motion.button
                 className="volunteer-opportunities-cta-button"
                 whileHover={{ scale: 1.1 }}
-                onClick={handleSignUp}
+                onClick={(e) => handleSubmitHours(e, event.id)}
               >
-                {signedUp ? (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <span>Signed Up!</span> ✔️
-                  </motion.div>
-                ) : (
-                  'Sign Up'
-                )}
+                Submit Hours
               </motion.button>
             </motion.div>
           ))}

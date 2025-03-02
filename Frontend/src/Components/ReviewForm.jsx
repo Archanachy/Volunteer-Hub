@@ -45,7 +45,7 @@ const ReviewForm = () => {
       });
 
       if (response.ok) {
-        navigate('/testimonials');
+        navigate('/reviews');
       } else {
         console.error('Error submitting review');
       }

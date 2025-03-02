@@ -13,6 +13,7 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const volunteerHoursRoutes = require('./routes/volunteerHoursRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const volunteerRoutes = require('./routes/volunteerRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -22,56 +23,20 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Test database connection and synchronize models
 sequelize.authenticate()
   .then(() => {
     console.log('PostgreSQL connected');
-    // Force sync during development to recreate tables
-    return sequelize.sync({ force: true }); 
+    return sequelize.sync(); // Regular sync without force
   })
   .then(() => {
     console.log('Database synchronized');
-    // Create test data
-    return Promise.all([
-      db.User.create({
-        name: 'Test User',
-        email: 'test@example.com',
-        password: bcrypt.hashSync('password123', 10),
-        role: 'volunteer'
-      }),
-      db.Event.create({
-        title: 'Community Cleanup',
-        date: new Date(),
-        description: 'Help clean up the local park',
-        location: 'Central Park',
-        participants: 10,
-        status: 'completed'
-      })
-    ]);
-  })
-  .then(([user, event]) => {
-    // Create test volunteer hours and review
-    return Promise.all([
-      db.VolunteerHours.create({
-        userId: user.id,
-        eventId: event.id,
-        hours: 5,
-        status: 'approved'
-      }),
-      db.Review.create({
-        userId: user.id,
-        eventId: event.id,
-        rating: 5,
-        reviewText: 'Great experience! Really enjoyed helping the community.',
-        status: 'approved'
-      })
-    ]);
-  })
-  .then(() => {
-    console.log('Test data created');
   })
   .catch(err => {
     console.log('Error: ' + err);
@@ -87,6 +52,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/volunteer-hours', volunteerHoursRoutes);
 app.use('/api/profiles', profileRoutes);
 app.use('/api/volunteers', volunteerRoutes);
+app.use('/api/contact', contactRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

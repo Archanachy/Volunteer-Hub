@@ -36,7 +36,7 @@ const SubmitVolunteerHours = () => {
       });
 
       if (response.ok) {
-        navigate('/volunteer-dashboard');
+        navigate('/volunteer');
       } else {
         console.error('Error submitting volunteer hours');
       }
@@ -46,8 +46,9 @@ const SubmitVolunteerHours = () => {
   };
 
   return (
+    <div><Navbar />
     <div className="submit-volunteer-hours-body">
-      <Navbar />
+      
       <div className="submit-volunteer-hours-container">
         <h1>Submit Volunteer Hours</h1>
         <form onSubmit={handleSubmit}>
@@ -76,6 +77,7 @@ const SubmitVolunteerHours = () => {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

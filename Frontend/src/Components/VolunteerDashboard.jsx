@@ -11,47 +11,85 @@ import '../Styles/VolunteerDashboard.css';
 const VolunteerDashboard = () => {
   const navigate = useNavigate();
   const [volunteerHours, setVolunteerHours] = useState(0);
-  const [totalHours, setTotalHours] = useState(100); // Example total hours
+  const [totalHours, setTotalHours] = useState(100);
   const [notifications, setNotifications] = useState([]);
   const [completedEvents, setCompletedEvents] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const userId = localStorage.getItem('userId');
 
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!userId) {
+      navigate('/login');
+    }
+  }, [userId, navigate]);
+
+  // Fetch notifications
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch('/api/notifications/user/1'); // Replace with actual user ID
-        const data = await response.json();
-        setNotifications(data);
+        const response = await fetch(`/api/notifications/user/${userId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data);
+        }
       } catch (error) {
         console.error('Error fetching notifications:', error);
       }
     };
-    fetchNotifications();
-  }, []);
+    if (userId) {
+      fetchNotifications();
+    }
+  }, [userId]);
 
+  // Fetch volunteer hours and completed events
   useEffect(() => {
     const fetchCompletedEvents = async () => {
       try {
-        // Replace with actual user ID from auth context
-        const userId = 1;
         const response = await fetch(`/api/volunteer-hours/user/${userId}`);
         if (response.ok) {
           const data = await response.json();
           setCompletedEvents(data);
+          
+          // Calculate total approved hours
+          const totalApprovedHours = data
+            .filter(event => event.status === 'approved')
+            .reduce((sum, event) => sum + event.hours, 0);
+          setVolunteerHours(totalApprovedHours);
         }
       } catch (error) {
         console.error('Error fetching completed events:', error);
       }
     };
-    fetchCompletedEvents();
-  }, []);
+    if (userId) {
+      fetchCompletedEvents();
+    }
+  }, [userId]);
+
+  // Fetch upcoming events
+  useEffect(() => {
+    const fetchUpcomingEvents = async () => {
+      try {
+        const response = await fetch('/api/events?status=upcoming');
+        if (response.ok) {
+          const data = await response.json();
+          setUpcomingEvents(data);
+        }
+      } catch (error) {
+        console.error('Error fetching upcoming events:', error);
+      }
+    };
+    if (userId) {
+      fetchUpcomingEvents();
+    }
+  }, [userId]);
 
   const handleProfileClick = () => {
-    const userId = localStorage.getItem('userId');
     navigate(`/my-profile/${userId}`);
   };
 
   const handleNotificationClick = () => {
-    navigate('/events/community-cleanup');
+    navigate('/notifications');
   };
 
   const handleWriteReview = (eventId) => {
@@ -95,8 +133,11 @@ const VolunteerDashboard = () => {
           >
             <h2>Upcoming Events</h2>
             <ul>
-              <li>Community Cleanup - March 5th</li>
-              <li>Food Drive - March 12th</li>
+              {upcomingEvents.map(event => (
+                <li key={event.id}>
+                  {event.title} - {new Date(event.date).toLocaleDateString()}
+                </li>
+              ))}
             </ul>
           </motion.div>
         </div>
@@ -139,7 +180,7 @@ const VolunteerDashboard = () => {
                 <h3>{event.Event?.title || 'Unknown Event'}</h3>
                 <p>Hours: {event.hours}</p>
                 <p>Status: {event.status}</p>
-                {event.status === 'approved' && (
+                {event.status === 'approved' && !event.hasReview && (
                   <motion.button
                     className="write-review-button"
                     whileHover={{ scale: 1.1 }}

@@ -10,6 +10,13 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const userRole = localStorage.getItem('userRole');
+    if (userRole !== 'admin') {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const handleManageVolunteers = () => {
     navigate('/manage-volunteers');
   };
@@ -24,6 +31,10 @@ const AdminDashboard = () => {
 
   const handleManageReviews = () => {
     navigate('/manage-reviews');
+  };
+
+  const handleContactMessages = () => {
+    navigate('/admin/messages');
   };
 
   const data = {
@@ -73,6 +84,13 @@ const AdminDashboard = () => {
             onClick={handleManageReviews}
           >
             Manage Reviews
+          </motion.button>
+          <motion.button
+            className="admin-dashboard-cta-button"
+            whileHover={{ scale: 1.1 }}
+            onClick={handleContactMessages}
+          >
+            Contact Messages
           </motion.button>
         </div>
         <div className="admin-dashboard-charts">

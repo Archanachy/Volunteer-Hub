@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-google-maps/api": "^2.20.6",
     "chart.js": "^4.4.7",
+    "date-fns": "^4.1.0",
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-chartjs-2": "^5.3.0",
@@ -20,8 +21,10 @@
     "react-dom": "^19.0.0",
     "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^7.1.5",
+    "react-simple-star-rating": "^5.1.7",
     "react-slick": "^0.30.3",
     "react-toastify": "^11.0.3",
+    "recharts": "^2.15.1",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {

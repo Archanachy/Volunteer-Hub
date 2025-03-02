@@ -1,23 +1,23 @@
 /* General Reset and Styling */
-.manage-testimonials-body {
+.manage-reviews-body {
     background-color: #1c1c1c; /* Dark background */
     color: #f0f0f0; /* Light text */
     overflow-x: hidden;
   }
   
-  .manage-testimonials-container {
+  .manage-reviews-container {
     padding: 40px;
     text-align: center;
   }
   
-  .testimonials-list {
+  .reviews-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
   }
   
-  .testimonial-card {
+  .review-card {
     background-color: #141414; /* Dark background */
     padding: 20px;
     border-radius: 10px;
@@ -27,11 +27,11 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
-  .testimonial-card h2 {
+  .review-card h2 {
     margin-bottom: 10px;
   }
   
-  .testimonial-card p {
+  .review-card p {
     margin-bottom: 10px;
   }
   

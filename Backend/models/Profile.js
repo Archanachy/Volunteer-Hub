@@ -15,6 +15,17 @@ const Profile = sequelize.define('Profile', {
       key: 'id',
     },
   },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isEmail: true,
+    },
+  },
   profilePic: {
     type: DataTypes.STRING,
     allowNull: true,
@@ -25,7 +36,11 @@ const Profile = sequelize.define('Profile', {
   },
 });
 
-User.hasOne(Profile, { foreignKey: 'userId' });
+User.hasOne(Profile, { 
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+  hooks: true 
+});
 Profile.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = Profile;

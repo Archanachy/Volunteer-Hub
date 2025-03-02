@@ -33,12 +33,45 @@ const User = sequelize.define('User', {
 User.associate = (models) => {
   User.hasMany(models.Review, {
     foreignKey: 'userId',
-    as: 'UserReviews'
+    as: 'UserReviews',
+    onDelete: 'CASCADE'
   });
   User.hasMany(models.VolunteerHours, {
     foreignKey: 'userId',
-    as: 'UserVolunteerHours'
+    as: 'UserVolunteerHours',
+    onDelete: 'CASCADE'
+  });
+  User.hasOne(models.Profile, {
+    foreignKey: 'userId',
+    as: 'UserProfile',
+    onDelete: 'CASCADE'
   });
 };
+
+// Hook to automatically create a profile when a user is created
+User.addHook('afterCreate', async (user, options) => {
+  const Profile = require('./Profile');
+  await Profile.create({
+    userId: user.id,
+    name: user.name,
+    email: user.email
+  });
+});
+
+// Hook to automatically update profile when user details change
+User.addHook('afterUpdate', async (user, options) => {
+  const Profile = require('./Profile');
+  if (user.changed('name') || user.changed('email')) {
+    await Profile.update(
+      {
+        name: user.name,
+        email: user.email
+      },
+      {
+        where: { userId: user.id }
+      }
+    );
+  }
+});
 
 module.exports = User;

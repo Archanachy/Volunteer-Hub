@@ -32,8 +32,15 @@ const SignUpLogin = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.user.id); // Store userId in local storage
-        navigate('/volunteer');
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userRole', data.user.role); // Store user role
+        
+        // Redirect based on role
+        if (data.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/volunteer');
+        }
       } else {
         setError(data.message);
       }

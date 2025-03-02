@@ -24,7 +24,7 @@ const FeedbackReview = () => {
       });
 
       if (response.ok) {
-        navigate('/testimonials');
+        navigate('/reviews');
       } else {
         console.error('Error submitting feedback');
       }

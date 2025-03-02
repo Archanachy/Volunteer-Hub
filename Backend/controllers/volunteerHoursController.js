@@ -21,12 +21,12 @@ exports.getAllVolunteerHours = async (req, res) => {
       include: [
         { 
           model: User,
-          as: 'User',
+          as: 'HoursUser',
           attributes: ['name']
         },
         { 
           model: Event,
-          as: 'Event',
+          as: 'HoursEvent',
           attributes: ['title']
         }
       ]
@@ -47,7 +47,7 @@ exports.getVolunteerHoursByUserId = async (req, res) => {
       include: [
         { 
           model: Event,
-          as: 'Event',
+          as: 'HoursEvent',
           attributes: ['title']
         }
       ]

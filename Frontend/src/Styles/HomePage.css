@@ -176,19 +176,25 @@
   margin-bottom: 20px;
 }
 
-/* Testimonials Section */
-.home-page-testimonials {
+/* Reviews Section */
+.home-page-reviews {
   padding: 60px 20px;
   background-color: #222222; /* Darker grey background */
 }
 
-.home-page-testimonials-content {
+.home-page-reviews-content {
   text-align: center;
 }
 
-.home-page-testimonials h2 {
+.home-page-reviews h2 {
   font-size: 2.5rem;
   margin-bottom: 40px;
+}
+
+.home-page-review-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Contact Section */

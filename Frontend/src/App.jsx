@@ -22,6 +22,7 @@ import ApproveHours from './admin/ApproveHours';
 import ManageReviews from './admin/ManageReviews';
 import PasswordReset from "./Components/PasswordReset";
 import ViewHistory from "./Components/ViewHistory";
+import ContactMessages from "./admin/ContactMessages";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/manage-reviews" element={<ManageReviews />} />
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/view-history" element={<ViewHistory />} />
+        <Route path="/admin/messages" element={<ContactMessages />} />
       </Routes>
       <Footer></Footer>
     </Router>
