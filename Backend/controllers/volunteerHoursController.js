@@ -9,7 +9,8 @@ exports.createVolunteerHours = async (req, res) => {
     const newVolunteerHours = await VolunteerHours.create({ userId, eventId, hours, status });
     res.status(201).json(newVolunteerHours);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error creating volunteer hours:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -18,13 +19,22 @@ exports.getAllVolunteerHours = async (req, res) => {
   try {
     const volunteerHours = await VolunteerHours.findAll({
       include: [
-        { model: User, attributes: ['name'] },
-        { model: Event, attributes: ['title'] },
-      ],
+        { 
+          model: User,
+          as: 'User',
+          attributes: ['name']
+        },
+        { 
+          model: Event,
+          as: 'Event',
+          attributes: ['title']
+        }
+      ]
     });
     res.status(200).json(volunteerHours);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching volunteer hours:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -35,12 +45,17 @@ exports.getVolunteerHoursByUserId = async (req, res) => {
     const volunteerHours = await VolunteerHours.findAll({
       where: { userId },
       include: [
-        { model: Event, attributes: ['title'] },
-      ],
+        { 
+          model: Event,
+          as: 'Event',
+          attributes: ['title']
+        }
+      ]
     });
     res.status(200).json(volunteerHours);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching volunteer hours by user:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 

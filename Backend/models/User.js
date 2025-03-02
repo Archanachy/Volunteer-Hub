@@ -15,6 +15,9 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+    validate: {
+      isEmail: true,
+    },
   },
   password: {
     type: DataTypes.STRING,
@@ -22,8 +25,20 @@ const User = sequelize.define('User', {
   },
   role: {
     type: DataTypes.ENUM('admin', 'volunteer'),
-    allowNull: false,
+    defaultValue: 'volunteer',
   },
 });
+
+// Add association after model definition
+User.associate = (models) => {
+  User.hasMany(models.Review, {
+    foreignKey: 'userId',
+    as: 'UserReviews'
+  });
+  User.hasMany(models.VolunteerHours, {
+    foreignKey: 'userId',
+    as: 'UserVolunteerHours'
+  });
+};
 
 module.exports = User;

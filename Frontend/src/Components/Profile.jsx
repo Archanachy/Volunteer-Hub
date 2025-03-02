@@ -8,17 +8,19 @@ const Profile = () => {
   const [volunteer, setVolunteer] = useState(null);
 
   useEffect(() => {
-    // Fetch volunteer data from the backend using volunteerId
-    // Example data
-    const fetchedVolunteer = {
-      id: volunteerId,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      hours: 120,
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      // Add more fields as needed
+    const fetchVolunteerProfile = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/volunteers/${volunteerId}`);
+        const data = await response.json();
+        setVolunteer(data);
+      } catch (error) {
+        console.error('Error fetching volunteer profile:', error);
+      }
     };
-    setVolunteer(fetchedVolunteer);
+    
+    if (volunteerId) {
+      fetchVolunteerProfile();
+    }
   }, [volunteerId]);
 
   if (!volunteer) {

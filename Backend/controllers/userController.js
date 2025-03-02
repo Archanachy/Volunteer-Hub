@@ -111,3 +111,17 @@ exports.deleteVolunteer = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+// Get volunteer profile by ID
+exports.getVolunteerProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const volunteer = await User.findOne({ where: { id, role: 'volunteer' } });
+    if (!volunteer) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+    res.status(200).json(volunteer);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};

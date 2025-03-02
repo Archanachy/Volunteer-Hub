@@ -27,6 +27,21 @@ const Event = sequelize.define('Event', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  status: {
+    type: DataTypes.ENUM('upcoming', 'ongoing', 'completed', 'cancelled'),
+    defaultValue: 'upcoming',
+  },
 });
+
+Event.associate = (models) => {
+  Event.hasMany(models.Review, {
+    foreignKey: 'eventId',
+    as: 'EventReviews'
+  });
+  Event.hasMany(models.VolunteerHours, {
+    foreignKey: 'eventId',
+    as: 'EventVolunteerHours'
+  });
+};
 
 module.exports = Event;

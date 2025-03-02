@@ -6,11 +6,11 @@ const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const sequelize = require('./config/database');
+const db = require('./models');
 const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
-const feedbackRoutes = require('./routes/feedbackRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 const volunteerHoursRoutes = require('./routes/volunteerHoursRoutes');
-const notificationRoutes = require('./routes/notificationRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const volunteerRoutes = require('./routes/volunteerRoutes');
 
@@ -22,17 +22,56 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // Test database connection and synchronize models
 sequelize.authenticate()
   .then(() => {
     console.log('PostgreSQL connected');
-    return sequelize.sync(); // Synchronize models with the database
+    // Force sync during development to recreate tables
+    return sequelize.sync({ force: true }); 
   })
   .then(() => {
     console.log('Database synchronized');
+    // Create test data
+    return Promise.all([
+      db.User.create({
+        name: 'Test User',
+        email: 'test@example.com',
+        password: bcrypt.hashSync('password123', 10),
+        role: 'volunteer'
+      }),
+      db.Event.create({
+        title: 'Community Cleanup',
+        date: new Date(),
+        description: 'Help clean up the local park',
+        location: 'Central Park',
+        participants: 10,
+        status: 'completed'
+      })
+    ]);
+  })
+  .then(([user, event]) => {
+    // Create test volunteer hours and review
+    return Promise.all([
+      db.VolunteerHours.create({
+        userId: user.id,
+        eventId: event.id,
+        hours: 5,
+        status: 'approved'
+      }),
+      db.Review.create({
+        userId: user.id,
+        eventId: event.id,
+        rating: 5,
+        reviewText: 'Great experience! Really enjoyed helping the community.',
+        status: 'approved'
+      })
+    ]);
+  })
+  .then(() => {
+    console.log('Test data created');
   })
   .catch(err => {
     console.log('Error: ' + err);
@@ -44,9 +83,8 @@ const upload = multer({ dest: 'uploads/' });
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
-app.use('/api/feedbacks', feedbackRoutes);
+app.use('/api/reviews', reviewRoutes);
 app.use('/api/volunteer-hours', volunteerHoursRoutes);
-app.use('/api/notifications', notificationRoutes);
 app.use('/api/profiles', profileRoutes);
 app.use('/api/volunteers', volunteerRoutes);
 

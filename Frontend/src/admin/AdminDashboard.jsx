@@ -9,21 +9,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await fetch('/api/notifications/user/1'); // Replace with actual admin user ID
-        const data = await response.json();
-        setNotifications(data);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-    fetchNotifications();
-  }, []);
 
   const handleManageVolunteers = () => {
     navigate('/manage-volunteers');
@@ -37,45 +22,8 @@ const AdminDashboard = () => {
     navigate('/approve-hours');
   };
 
-  const handleManageFeedback = () => {
-    navigate('/manage-feedback');
-  };
-
-  const handleManageTestimonials = () => {
-    navigate('/manage-testimonials');
-  };
-
-  const toggleNotifications = () => {
-    setShowNotifications(!showNotifications);
-  };
-
-  const handleMarkAsRead = async (id) => {
-    try {
-      const response = await fetch(`/api/notifications/${id}/read`, {
-        method: 'PUT',
-      });
-
-      if (response.ok) {
-        setNotifications(notifications.map((notification) =>
-          notification.id === id ? { ...notification, readStatus: true } : notification
-        ));
-      } else {
-        console.error('Error marking notification as read');
-      }
-    } catch (error) {
-      console.error('Error marking notification as read:', error);
-    }
-  };
-
-  const handleDeleteNotification = async (id) => {
-    try {
-      await fetch(`/api/notifications/${id}`, {
-        method: 'DELETE',
-      });
-      setNotifications(notifications.filter((notification) => notification.id !== id));
-    } catch (error) {
-      console.error('Error deleting notification:', error);
-    }
+  const handleManageReviews = () => {
+    navigate('/manage-reviews');
   };
 
   const data = {
@@ -96,9 +44,6 @@ const AdminDashboard = () => {
       <div className="admin-dashboard-container">
         <div className="admin-dashboard-header">
           <h1>Admin Dashboard</h1>
-          <button onClick={toggleNotifications} className="admin-dashboard-notification-icon">
-            🔔
-          </button>
         </div>
         <div className="admin-dashboard-actions">
           <motion.button
@@ -125,56 +70,14 @@ const AdminDashboard = () => {
           <motion.button
             className="admin-dashboard-cta-button"
             whileHover={{ scale: 1.1 }}
-            onClick={handleManageFeedback}
+            onClick={handleManageReviews}
           >
-            Manage Feedback
-          </motion.button>
-          <motion.button
-            className="admin-dashboard-cta-button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleManageTestimonials}
-          >
-            Manage Testimonials
+            Manage Reviews
           </motion.button>
         </div>
         <div className="admin-dashboard-charts">
           <Bar data={data} />
         </div>
-        {showNotifications && (
-          <motion.div
-            className="admin-dashboard-notifications-panel"
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2>Notifications</h2>
-            <ul>
-              {notifications.map((notification) => (
-                <li key={notification.id} className={notification.readStatus ? 'read' : 'unread'}>
-                  <p>{notification.message}</p>
-                  <div className="notification-actions">
-                    {!notification.readStatus && (
-                      <motion.button
-                        className="cta-button"
-                        whileHover={{ scale: 1.1 }}
-                        onClick={() => handleMarkAsRead(notification.id)}
-                      >
-                        Mark as Read
-                      </motion.button>
-                    )}
-                    <motion.button
-                      className="cta-button"
-                      whileHover={{ scale: 1.1 }}
-                      onClick={() => handleDeleteNotification(notification.id)}
-                    >
-                      Delete
-                    </motion.button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
       </div>
     </div>
   );

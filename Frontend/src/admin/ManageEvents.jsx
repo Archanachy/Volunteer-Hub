@@ -6,6 +6,14 @@ import '../Styles/ManageEvents.css';
 
 const ManageEvents = () => {
   const [events, setEvents] = useState([]);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newEvent, setNewEvent] = useState({
+    title: '',
+    date: '',
+    description: '',
+    location: '',
+    participants: 0
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,11 +44,131 @@ const ManageEvents = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewEvent(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleCreateEvent = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEvent),
+      });
+      const data = await response.json();
+      setEvents(prev => [...prev, data]);
+      setShowCreateForm(false);
+      setNewEvent({
+        title: '',
+        date: '',
+        description: '',
+        location: '',
+        participants: 0
+      });
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
+  };
+
   return (
     <div className="manage-events-body">
       <Navbar />
       <div className="manage-events-container">
-        <h1>Manage Events</h1>
+        <div className="manage-events-header">
+          <h1>Manage Events</h1>
+          <motion.button
+            className="create-event-button"
+            whileHover={{ scale: 1.05 }}
+            onClick={() => setShowCreateForm(true)}
+          >
+            Create New Event
+          </motion.button>
+        </div>
+
+        {showCreateForm && (
+          <div className="create-event-modal">
+            <div className="create-event-content">
+              <h2>Create New Event</h2>
+              <form onSubmit={handleCreateEvent}>
+                <div className="form-group">
+                  <label>Title:</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={newEvent.title}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Date:</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={newEvent.date}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Description:</label>
+                  <textarea
+                    name="description"
+                    value={newEvent.description}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Location:</label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={newEvent.location}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Maximum Participants:</label>
+                  <input
+                    type="number"
+                    name="participants"
+                    value={newEvent.participants}
+                    onChange={handleInputChange}
+                    required
+                    min="0"
+                  />
+                </div>
+                <div className="form-actions">
+                  <motion.button
+                    type="submit"
+                    className="submit-button"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    Create Event
+                  </motion.button>
+                  <motion.button
+                    type="button"
+                    className="cancel-button"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => setShowCreateForm(false)}
+                  >
+                    Cancel
+                  </motion.button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
         <div className="events-list">
           {events.map((event) => (
             <motion.div

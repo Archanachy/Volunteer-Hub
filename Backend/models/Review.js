@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const VolunteerHours = sequelize.define('VolunteerHours', {
+const Review = sequelize.define('Review', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -15,38 +15,37 @@ const VolunteerHours = sequelize.define('VolunteerHours', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  hours: {
-    type: DataTypes.FLOAT,
+  rating: {
+    type: DataTypes.INTEGER,
     allowNull: false,
     validate: {
-      min: 0,
+      min: 1,
+      max: 5,
     },
+  },
+  reviewText: {
+    type: DataTypes.TEXT,
+    allowNull: false,
   },
   status: {
     type: DataTypes.ENUM('pending', 'approved', 'rejected'),
     defaultValue: 'pending',
-    allowNull: false,
   },
-  date: {
+  createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    allowNull: false,
-  },
-  notes: {
-    type: DataTypes.TEXT,
-    allowNull: true,
   },
 });
 
-VolunteerHours.associate = (models) => {
-  VolunteerHours.belongsTo(models.User, {
+Review.associate = (models) => {
+  Review.belongsTo(models.User, {
     foreignKey: 'userId',
-    as: 'HoursUser'
+    as: 'ReviewUser'
   });
-  VolunteerHours.belongsTo(models.Event, {
+  Review.belongsTo(models.Event, {
     foreignKey: 'eventId',
-    as: 'HoursEvent'
+    as: 'ReviewEvent'
   });
 };
 
-module.exports = VolunteerHours;
+module.exports = Review; 

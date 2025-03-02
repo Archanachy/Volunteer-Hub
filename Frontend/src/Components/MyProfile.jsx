@@ -8,23 +8,36 @@ const MyProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicPreview, setProfilePicPreview] = useState(null);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({
+    name: '',
+    email: '',
+    bio: ''
+  });
   const navigate = useNavigate();
   const { volunteerId } = useParams();
 
   useEffect(() => {
     const fetchProfile = async () => {
+      if (!volunteerId) {
+        navigate('/login');
+        return;
+      }
+      
       try {
         const response = await fetch(`/api/profiles/${volunteerId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile');
+        }
         const data = await response.json();
         setProfile(data);
         setProfilePicPreview(data.profilePic ? `/${data.profilePic}` : null);
       } catch (error) {
         console.error('Error fetching profile:', error);
+        navigate('/login');
       }
     };
     fetchProfile();
-  }, [volunteerId]);
+  }, [volunteerId, navigate]);
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
