@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Navbar from '../Components/Navbar';
+import AdminNavbar from '../Components/AdminNavbar';
 import '../Styles/ManageVolunteers.css';
 
 const ManageVolunteers = () => {
@@ -41,7 +41,7 @@ const ManageVolunteers = () => {
 
   return (
     <div className="manage-volunteers-body">
-      <Navbar />
+      <AdminNavbar />
       <div className="manage-volunteers-container">
         <h1>Manage Volunteers</h1>
         <div className="volunteers-list">

@@ -76,13 +76,15 @@ const SignUpLogin = () => {
     }
   };
 
-  const handleForgotPassword = () => {
-    navigate('/password-reset');
-  };
+  // Commented out forgot password handler
+  // const handleForgotPassword = () => {
+  //   navigate('/password-reset');
+  // };
 
   return (
     <Routes>
-      <Route path="/password-reset" element={<PasswordReset />} />
+      {/* Commented out password reset route */}
+      {/* <Route path="/password-reset" element={<PasswordReset />} /> */}
       <Route path="/" element={
         <div>
           <Navbar></Navbar>
@@ -109,8 +111,10 @@ const SignUpLogin = () => {
                       </div>
                       {error && <p className="login-error-message">{error}</p>}
                       <button type="submit" className="login-cta-button">Login</button>
-                      <p className="login-toggle-text" onClick={handleForgotPassword}>Forgot Password?</p>
-                      <p className="login-toggle-text" onClick={handleToggle}>Don't have an account? Sign Up</p>
+                      {/* Commented out forgot password link */}
+                      {/* <p className="login-toggle-text" onClick={handleForgotPassword}>Forgot Password?</p> */}
+                      <p className="login-toggle-text" onClick={handleToggle}>
+                        Don't have an account? Sign Up</p>
                     </form>
                   </motion.div>
                 ) : (

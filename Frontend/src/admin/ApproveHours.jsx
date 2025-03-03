@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Navbar from '../Components/Navbar';
+import AdminNavbar from '../Components/AdminNavbar';
 import '../Styles/ApproveHours.css';
 
 const ApproveHours = () => {
@@ -74,7 +74,7 @@ const ApproveHours = () => {
   if (loading) {
     return (
       <div className="approve-hours-body">
-        <Navbar />
+        <AdminNavbar />
         <div className="approve-hours-container">
           <h1>Approve Volunteer Hours</h1>
           <div className="loading-spinner">Loading...</div>
@@ -86,7 +86,7 @@ const ApproveHours = () => {
   if (error) {
     return (
       <div className="approve-hours-body">
-        <Navbar />
+        <AdminNavbar />
         <div className="approve-hours-container">
           <h1>Approve Volunteer Hours</h1>
           <div className="error-message">{error}</div>
@@ -97,7 +97,7 @@ const ApproveHours = () => {
 
   return (
     <div className="approve-hours-body">
-      <Navbar />
+      <AdminNavbar />
       <div className="approve-hours-container">
         <h1>Approve Volunteer Hours</h1>
         {volunteerHours.length === 0 ? (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from '../Components/Navbar';
+import AdminNavbar from '../Components/AdminNavbar';
 import '../Styles/ContactMessages.css';
 
 const ContactMessages = () => {
@@ -137,7 +137,7 @@ const ContactMessages = () => {
   if (loading) {
     return (
       <div>
-        <Navbar />
+        <AdminNavbar />
         <div className="contact-messages-container">
           <h1>Loading messages...</h1>
         </div>
@@ -147,7 +147,7 @@ const ContactMessages = () => {
 
   return (
     <div>
-      <Navbar />
+      <AdminNavbar />
       <div className="contact-messages-container">
         <ToastContainer />
         

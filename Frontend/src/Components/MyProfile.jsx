@@ -43,10 +43,6 @@ const MyProfile = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleViewHistory = () => {
-    navigate('/view-history');
-  };
-
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     setProfilePic(file);
@@ -77,6 +73,15 @@ const MyProfile = () => {
     } catch (error) {
       console.error('Error updating profile:', error);
     }
+  };
+
+  const handleLogout = () => {
+    // Clear authentication tokens or any other logout logic
+    localStorage.removeItem('token'); // Example: remove auth token from local storage
+    localStorage.removeItem('userId'); // Example: remove user ID from local storage
+    localStorage.removeItem('userRole'); // Example: remove token expiration from local storage
+    
+    navigate('/login');
   };
 
   return (
@@ -146,7 +151,8 @@ const MyProfile = () => {
                   </div>
                   <div className="my-profile-input-group">
                     <label>Bio</label>
-                    <textarea
+                    <input
+                      type="text"
                       value={profile.bio}
                       onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
                     />
@@ -156,11 +162,11 @@ const MyProfile = () => {
               )}
             </div>
           </div>
-          <button onClick={handleViewHistory} className="my-profile-cta-button">
-            View History
-          </button>
           <button onClick={handleSubmitHours} className="my-profile-cta-button">
             Submit Hours
+          </button>
+          <button onClick={handleLogout} className="my-profile-cta-button">
+            Logout
           </button>
         </motion.div>
       </div>

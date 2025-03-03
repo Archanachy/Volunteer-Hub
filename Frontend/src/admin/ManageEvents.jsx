@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Navbar from '../Components/Navbar';
+import AdminNavbar from '../Components/AdminNavbar';
 import '../Styles/ManageEvents.css';
 
 const ManageEvents = () => {
@@ -79,7 +79,7 @@ const ManageEvents = () => {
 
   return (
     <div className="manage-events-body">
-      <Navbar />
+      <AdminNavbar />
       <div className="manage-events-container">
         <div className="manage-events-header">
           <h1>Manage Events</h1>

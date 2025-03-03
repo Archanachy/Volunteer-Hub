@@ -7,7 +7,9 @@ import Navbar from '../Components/Navbar';
 const VolunteerOpportunities = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
-  const [filterExpanded, setFilterExpanded] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  // Commented out filter state
+  // const [filterExpanded, setFilterExpanded] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -23,6 +25,7 @@ const VolunteerOpportunities = () => {
   }, []);
 
   const handleEventClick = (eventId) => {
+    setSelectedEvent(eventId);
     navigate(`/events/${eventId}`);
   };
 
@@ -37,9 +40,10 @@ const VolunteerOpportunities = () => {
     navigate(`/submit-hours/${eventId}`);
   };
 
-  const toggleFilter = () => {
-    setFilterExpanded(!filterExpanded);
-  };
+  // Commented out filter toggle function
+  // const toggleFilter = () => {
+  //   setFilterExpanded(!filterExpanded);
+  // };
 
   return (
     <div>
@@ -57,6 +61,7 @@ const VolunteerOpportunities = () => {
         >
           Volunteer Opportunities
         </motion.h1>
+        {/* Commented out filter section
         <motion.div
           className="volunteer-opportunities-filter-section"
           initial={{ opacity: 0 }}
@@ -77,11 +82,11 @@ const VolunteerOpportunities = () => {
               animate={{ height: 'auto', opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              {/* Add filter options here */}
               <p>Filter options go here...</p>
             </motion.div>
           )}
         </motion.div>
+        */}
         <motion.div
           className="volunteer-opportunities-event-cards"
           initial={{ opacity: 0 }}
@@ -91,7 +96,7 @@ const VolunteerOpportunities = () => {
           {events.map((event) => (
             <motion.div
               key={event.id}
-              className="volunteer-opportunities-event-card"
+              className={`volunteer-opportunities-event-card ${selectedEvent === event.id ? 'selected' : ''}`}
               whileHover={{ scale: 1.05, boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)' }}
               onClick={() => handleEventClick(event.id)}
             >
@@ -106,6 +111,7 @@ const VolunteerOpportunities = () => {
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
+                className="volunteer-opportunities-event-date"
               >
                 Date: {new Date(event.date).toDateString()}
               </motion.p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Navbar from '../Components/Navbar';
+import AdminNavbar from '../Components/AdminNavbar';
 import '../Styles/ManageReviews.css';
 
 const ManageReviews = () => {
@@ -81,7 +81,7 @@ const ManageReviews = () => {
   if (loading) {
     return (
       <div className="manage-reviews-body">
-        <Navbar />
+        <AdminNavbar />
         <div className="manage-reviews-container">
           <h1>Manage Reviews</h1>
           <div className="loading">Loading...</div>
@@ -91,8 +91,9 @@ const ManageReviews = () => {
   }
 
   return (
+    <div>
+      <AdminNavbar />
     <div className="manage-reviews-body">
-      <Navbar />
       <div className="manage-reviews-container">
         <h1>Manage Reviews</h1>
         <div className="reviews-list">
@@ -150,7 +151,10 @@ const ManageReviews = () => {
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+  
 };
+
 
 export default ManageReviews; 

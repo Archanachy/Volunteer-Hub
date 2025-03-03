@@ -12,7 +12,6 @@ const VolunteerDashboard = () => {
   const navigate = useNavigate();
   const [volunteerHours, setVolunteerHours] = useState(0);
   const [totalHours, setTotalHours] = useState(100);
-  const [notifications, setNotifications] = useState([]);
   const [completedEvents, setCompletedEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const userId = localStorage.getItem('userId');
@@ -23,24 +22,6 @@ const VolunteerDashboard = () => {
       navigate('/login');
     }
   }, [userId, navigate]);
-
-  // Fetch notifications
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await fetch(`/api/notifications/user/${userId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setNotifications(data);
-        }
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-    if (userId) {
-      fetchNotifications();
-    }
-  }, [userId]);
 
   // Fetch volunteer hours and completed events
   useEffect(() => {
@@ -86,10 +67,6 @@ const VolunteerDashboard = () => {
 
   const handleProfileClick = () => {
     navigate(`/my-profile/${userId}`);
-  };
-
-  const handleNotificationClick = () => {
-    navigate('/notifications');
   };
 
   const handleWriteReview = (eventId) => {
@@ -149,23 +126,6 @@ const VolunteerDashboard = () => {
           >
             View Profile
           </motion.button>
-          <motion.button
-            className="volunteer-dashboard-cta-button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleNotificationClick}
-          >
-            View Notifications
-          </motion.button>
-        </div>
-        <div className="volunteer-dashboard-notifications">
-          <h2>Notifications</h2>
-          <ul>
-            {notifications.map((notification) => (
-              <li key={notification.id} className={notification.readStatus ? 'read' : 'unread'}>
-                <p>{notification.message}</p>
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div className="completed-events-section">

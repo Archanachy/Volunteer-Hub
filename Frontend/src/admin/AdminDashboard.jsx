@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import AdminNavbar from '../Components/AdminNavbar';
 import '../Styles/AdminDashboard.css';
+import { div } from 'framer-motion/client';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -16,26 +17,6 @@ const AdminDashboard = () => {
       navigate('/login');
     }
   }, [navigate]);
-
-  const handleManageVolunteers = () => {
-    navigate('/manage-volunteers');
-  };
-
-  const handleManageEvents = () => {
-    navigate('/manage-events');
-  };
-
-  const handleApproveHours = () => {
-    navigate('/approve-hours');
-  };
-
-  const handleManageReviews = () => {
-    navigate('/manage-reviews');
-  };
-
-  const handleContactMessages = () => {
-    navigate('/admin/messages');
-  };
 
   const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -51,52 +32,18 @@ const AdminDashboard = () => {
   };
 
   return (
+    <div>
+      <AdminNavbar />
     <div className="admin-dashboard-body">
       <div className="admin-dashboard-container">
         <div className="admin-dashboard-header">
           <h1>Admin Dashboard</h1>
         </div>
-        <div className="admin-dashboard-actions">
-          <motion.button
-            className="admin-dashboard-cta-button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleManageVolunteers}
-          >
-            Manage Volunteers
-          </motion.button>
-          <motion.button
-            className="admin-dashboard-cta-button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleManageEvents}
-          >
-            Manage Events
-          </motion.button>
-          <motion.button
-            className="admin-dashboard-cta-button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleApproveHours}
-          >
-            Approve Hours
-          </motion.button>
-          <motion.button
-            className="admin-dashboard-cta-button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleManageReviews}
-          >
-            Manage Reviews
-          </motion.button>
-          <motion.button
-            className="admin-dashboard-cta-button"
-            whileHover={{ scale: 1.1 }}
-            onClick={handleContactMessages}
-          >
-            Contact Messages
-          </motion.button>
-        </div>
         <div className="admin-dashboard-charts">
           <Bar data={data} />
         </div>
       </div>
+    </div>
     </div>
   );
 };
